@@ -37,6 +37,15 @@
    ]
   },
   {
+   "source": "/ads/ads.json",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "no-store"
+    }
+   ]
+  },
+  {
    "source": "/three.min.js",
    "headers": [
     {
