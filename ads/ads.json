@@ -1,3 +1,24 @@
 {
- "ads": []
+ "ads": [
+  {
+   "id": "next-star-covenant",
+   "business": "The Next Star of the Covenant (COHAS Youth Group)",
+   "image": "next-star-covenant-v1.jpg",
+   "start": "2026-10-13",
+   "end": "2026-10-18"
+  },
+  {
+   "id": "ai-director-blueprint",
+   "business": "The AI Director Blueprint bootcamp",
+   "image": "ai-director-blueprint-v1.jpg",
+   "start": "2026-10-13",
+   "end": "2026-10-31"
+  },
+  {
+   "id": "sommyart-bike-rush",
+   "business": "Sommyart: Bike RUSH",
+   "image": "sommyart-bike-rush-v1.jpg",
+   "start": "2026-10-13"
+  }
+ ]
 }
