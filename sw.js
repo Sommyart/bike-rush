@@ -1,10 +1,10 @@
 /* Sommyart: Bike RUSH service worker.
    Pages: network first (new versions arrive on next launch), cached copy when offline.
    Big static files (engine, music, icons): cached once, kept across game updates. */
-const VERSION = '2.4.0';
+const VERSION = '2.4.1';
 const PAGES = 'br-pages';
 const STATIC = 'br-static-1';
-const STATIC_FILES = ['three.min.js', 'coasting.mp3', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest'];
+const STATIC_FILES = ['three.min.js', 'coasting.mp3', 'night-drift.mp3', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest'];
 
 self.addEventListener('install', (e) => {
   e.waitUntil((async () => {
