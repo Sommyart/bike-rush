@@ -1,4 +1,10 @@
 {
+ "rewrites": [
+  {
+   "source": "/leaderboard",
+   "destination": "/leaderboard.html"
+  }
+ ],
  "headers": [
   {
    "source": "/",
@@ -42,6 +48,15 @@
     {
      "key": "Cache-Control",
      "value": "no-store"
+    }
+   ]
+  },
+  {
+   "source": "/leaderboard.html",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "no-cache"
     }
    ]
   },

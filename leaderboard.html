@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Bike RUSH Leaderboard</title>
+<meta name="description" content="Live global leaderboard for Sommyart: Bike RUSH: who is riding and which track they have reached.">
+<link rel="icon" href="icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bungee&family=Barlow+Semi+Condensed:ital,wght@0,600;0,800;1,800;1,900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0b0a10;--panel:#16141f;--line:rgba(255,255,255,.1);--muted:#a8a4b8;--gold:#f2b632;--purple:#8b3dff;--live:#6aff8a;color-scheme:dark}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:#fff;font-family:"Barlow Semi Condensed",Arial,sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:24px 16px 40px}
+h1{font-family:Bungee,Impact,sans-serif;font-weight:400;font-size:clamp(28px,7vw,44px);margin:0;line-height:1}h1 span{color:var(--gold)}
+.sub{color:var(--muted);font-weight:600;margin:6px 0 18px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.stats div{background:var(--panel);border:1px solid var(--line);padding:10px 14px;min-width:120px}
+.stats b{display:block;font-size:26px;font-weight:800;font-variant-numeric:tabular-nums}.stats small{color:var(--muted);font-weight:800;letter-spacing:.5px;text-transform:uppercase;font-size:12px}.stats .on b{color:var(--live)}
+.filters{display:flex;gap:8px;margin-bottom:12px}.filters button{background:var(--panel);color:#fff;border:1px solid var(--line);padding:7px 14px;font:inherit;font-weight:800;cursor:pointer}.filters button.on{background:var(--gold);color:#140c00;border-color:var(--gold)}
+.row{display:grid;grid-template-columns:44px 36px 1fr auto;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--line);padding:12px 14px;margin-bottom:8px}
+.pos{font-family:Bungee,Impact,sans-serif;font-size:24px;color:var(--gold);text-align:center}.r1 .pos{color:#ffd84a}.r2 .pos{color:#d8dde6}.r3 .pos{color:#e0965a}
+.av{width:36px;height:36px;display:grid;place-items:center;font-family:Bungee,Impact,sans-serif;font-size:16px}
+.nm{font-weight:900;font-style:italic;font-size:20px;text-transform:uppercase;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lv{color:var(--muted);font-weight:600;font-size:14px}.st{font-weight:800;font-size:13px;color:var(--muted);margin-top:2px}.st.live{color:var(--live)}
+.right{text-align:right;font-weight:800;color:var(--muted);font-size:14px;font-variant-numeric:tabular-nums}.right .s{color:var(--gold);font-size:17px}
+.msg{color:var(--muted);text-align:center;padding:40px 10px;font-weight:600}
+.foot{color:var(--muted);font-size:13px;text-align:center;margin-top:18px}.foot a{color:var(--gold)}
+@media (max-width:480px){.row{grid-template-columns:34px 30px 1fr auto;gap:8px;padding:10px}.av{width:30px;height:30px}.nm{font-size:17px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>BIKE <span>RUSH</span></h1>
+  <p class="sub">Global leaderboard · updates every 30 seconds</p>
+  <div class="stats"><div><b id="sTotal">0</b><small>Riders</small></div><div class="on"><b id="sOnline">0</b><small>Online now</small></div><div><b id="sTop">-</b><small>Furthest track</small></div></div>
+  <div class="filters"><button data-f="all" class="on">All riders</button><button data-f="on">Online now</button></div>
+  <div id="list"><p class="msg">Loading riders…</p></div>
+  <p class="foot">Play at <a href="./">sommyart-bike-rush.vercel.app</a> · Sommyart Imagery, creativity in a nutshell</p>
+</div>
+<script>
+const COLS=['#e8344e','#2f7bff','#ff8a1f','#19b46b','#e23bd0','#16c8f0','#8b3dff','#f2b632'];let filter='all',last=null;
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const col=n=>{let h=0;for(const c of String(n))h=(h*31+c.charCodeAt(0))>>>0;return COLS[h%COLS.length];};
+const ago=ms=>{const m=Math.round(ms/60000);if(m<60)return m+' min ago';const h=Math.round(m/60);return h<48?h+' h ago':Math.round(h/24)+' days ago';};
+function draw(){const j=last,L=document.getElementById('list');if(!j)return;
+  if(!j.ok){L.innerHTML='<p class="msg">'+(j.setup?'The leaderboard is being set up. Check back soon.':'Could not load the leaderboard.')+'</p>';return;}
+  document.getElementById('sTotal').textContent=j.total;document.getElementById('sOnline').textContent=j.online;
+  const best=j.players.reduce((m,p)=>Math.max(m,p.lvl),0);document.getElementById('sTop').textContent=best?'#'+best:'-';
+  const ps=j.players.filter(p=>filter==='all'||j.now-p.t<j.onlineMs);
+  L.innerHTML=ps.length?ps.map(p=>{const on=j.now-p.t<j.onlineMs;return `<div class="row${p.rank<=3?' r'+p.rank:''}"><span class="pos">${p.rank}</span><span class="av" style="background:${col(p.name)}">${esc((p.name[0]||'?').toUpperCase())}</span><div style="min-width:0"><div class="nm">${esc(p.name)}</div><div class="lv">Chapter ${p.ch} · Track ${p.lvl}: ${esc(p.lvName)}</div><div class="st${on?' live':''}">${on?(p.cur?'● Racing now · '+esc(p.curName):'● Online'):'Last seen '+ago(j.now-p.t)}</div></div><div class="right"><div class="s">★ ${p.stars}</div><div>${p.done}/${p.total} done</div><div>${p.wins} wins · ${p.races} races</div></div></div>`;}).join(''):'<p class="msg">'+(filter==='on'?'Nobody is riding right now.':'No riders yet.')+'</p>';}
+function load(){fetch('api/lb?t='+Math.floor(Date.now()/20000)).then(r=>r.json()).then(j=>{last=j;draw();}).catch(()=>{if(!last)document.getElementById('list').innerHTML='<p class="msg">Could not load the leaderboard.</p>';});}
+document.querySelectorAll('.filters button').forEach(b=>b.onclick=()=>{filter=b.dataset.f;document.querySelectorAll('.filters button').forEach(x=>x.classList.toggle('on',x===b));draw();});
+load();setInterval(load,30000);
+</script>
+</body>
+</html>

@@ -1,7 +1,7 @@
 /* Sommyart: Bike RUSH service worker.
    Pages: network first (new versions arrive on next launch), cached copy when offline.
    Big static files (engine, music, icons): cached once, kept across game updates. */
-const VERSION = '2.5.2';
+const VERSION = '2.6.0';
 const PAGES = 'br-pages';
 const STATIC = 'br-static-1';
 const STATIC_FILES = ['three.min.js', 'coasting.mp3', 'night-drift.mp3', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest'];
@@ -32,7 +32,7 @@ function isPage(req, url) {
 self.addEventListener('fetch', (e) => {
   const req = e.request, url = new URL(req.url);
   if (req.method !== 'GET' || url.origin !== self.location.origin) return;
-  if (url.pathname.endsWith('/version.json') || url.pathname.endsWith('.apk') || url.pathname.startsWith('/download')) return;
+  if (url.pathname.endsWith('/version.json') || url.pathname.endsWith('.apk') || url.pathname.startsWith('/download') || url.pathname.startsWith('/api/') || url.pathname.startsWith('/leaderboard')) return;
   if (url.pathname.endsWith('/ads/ads.json')) {
     e.respondWith((async () => {
       const pg = await caches.open(PAGES);
