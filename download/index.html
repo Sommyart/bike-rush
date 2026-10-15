@@ -38,6 +38,11 @@ ol li span{min-width:0}
 .alt{display:block;text-align:center;margin:26px auto 0;color:var(--text);font-weight:800;font-style:italic;text-transform:uppercase;letter-spacing:.5px;text-decoration:none;border:1px solid var(--line);padding:12px;transform:skewX(-9deg)}
 .alt span{display:inline-block;transform:skewX(9deg)}
 .fine{color:var(--muted);font-size:14px;text-align:center;margin:22px 0 0}
+#iphone{margin-top:8px}.ios-lede{color:var(--muted);font-weight:600;margin:0 0 12px}.shr{width:18px;height:18px;vertical-align:-3px;color:#2fd6ff}
+.ios-go{margin-top:18px}
+body.ios #android{order:2}body.ios main{display:flex;flex-direction:column}body.ios #iphone{order:1}body.ios #iphone h2{margin-top:0}
+body.ios .art,body.ios .kicker,body.ios h1,body.ios .lede{order:0}body.ios .alt,body.ios footer{order:3}body.ios #android{display:none}
+body:not(.ios) .ios-go{display:none}
 footer{text-align:center;color:var(--muted);font-size:13px;margin-top:26px;letter-spacing:1px;text-transform:uppercase;font-weight:700}
 </style>
 </head>
@@ -46,9 +51,10 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:26px;lette
   <img class="art" src="art.jpg" alt="Bike RUSH app icon" width="150" height="150">
   <p class="kicker">Sommyart presents</p>
   <h1>Bike <span>Rush</span></h1>
-  <p class="lede">Race across 38 Nigerian landmarks, from Enugu streets to Zuma Rock. Flip off mega ramps, beat the chapter bosses.</p>
+  <p class="lede">Race across 86 Nigerian landmarks, from Enugu streets to Zuma Rock. Flip off mega ramps, beat the chapter bosses.</p>
 
-  <a class="cta" href="../bike-rush.apk" download="Sommyart-Bike-RUSH.apk"><span>Download for Android</span><small>Version 2.8.0 · 0.9 MB · Android 7.0 or newer</small></a>
+  <div id="android">
+  <a class="cta" href="../bike-rush.apk" download="Sommyart-Bike-RUSH.apk"><span>Download for Android</span><small>Version 2.8.1 · 0.9 MB · Android 7.0 or newer</small></a>
 
   <div class="auto"><span class="dot"></span><span><b>Install once.</b> New tracks, bikes and fixes arrive by themselves every time you open the app. No need to download again.</span></div>
 
@@ -59,9 +65,26 @@ footer{text-align:center;color:var(--muted);font-size:13px;margin-top:26px;lette
     <li><span>Tap <b>Install</b>, then open <b>Bike RUSH</b> and tap <b>Allow</b> when it asks about notifications, so you hear when new tracks are added. The first launch needs internet; after that it also works offline.</span></li>
   </ol>
 
-  <a class="alt" href="../"><span>Or play in your browser</span></a>
   <p class="fine">Already have an older Bike RUSH installed? Install this over it. Your coins, bikes and progress carry over.</p>
+  </div>
+
+  <section id="iphone">
+  <h2>On iPhone or iPad</h2>
+  <p class="ios-lede">Bike RUSH installs straight from Safari onto your Home Screen. No App Store needed, and updates arrive by themselves.</p>
+  <ol>
+    <li><span>Open <b>sommyart-bike-rush.vercel.app</b> in <b>Safari</b>.</span></li>
+    <li><span>Tap the <b>Share</b> button <svg class="shr" viewBox="0 0 24 24" aria-label="Share icon"><path d="M12 3v12M7.5 7.5 12 3l4.5 4.5M6 11H5v10h14V11h-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> at the bottom (or top) of the screen.</span></li>
+    <li><span>Scroll down and tap <b>Add to Home Screen</b>, then <b>Add</b>.</span></li>
+    <li><span>Open <b>Bike RUSH</b> from your Home Screen. It runs full screen like an app.</span></li>
+    <li><span>For new-track alerts, go to <b>Settings</b> in the game and turn on <b>New track alerts</b>, then tap <b>Allow</b>. Needs iOS 16.4 or newer.</span></li>
+  </ol>
+  <a class="cta ios-go" href="../"><span>Open the game</span><small>Then Share, Add to Home Screen</small></a>
+  <p class="fine">Tip: add it to your Home Screen before you start racing. The Home Screen app may keep its own progress, separate from Safari.</p>
+  </section>
+
+  <a class="alt" href="../"><span>Or play in your browser</span></a>
   <footer>Sommyart Imagery</footer>
 </main>
+<script>(function(){var u=navigator.userAgent,ios=/iPhone|iPad|iPod/.test(u)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);if(ios)document.body.classList.add('ios');})();</script>
 </body>
 </html>
