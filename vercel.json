@@ -5,7 +5,22 @@
    "destination": "/leaderboard.html"
   }
  ],
+ "crons": [
+  {
+   "path": "/api/push?check=1",
+   "schedule": "15 9 * * *"
+  }
+ ],
  "headers": [
+  {
+   "source": "/news.json",
+   "headers": [
+    {
+     "key": "Cache-Control",
+     "value": "no-store"
+    }
+   ]
+  },
   {
    "source": "/",
    "headers": [

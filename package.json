@@ -1,0 +1,7 @@
+{
+ "private": true,
+ "name": "sommyart-bike-rush",
+ "dependencies": {
+  "web-push": "3.6.7"
+ }
+}

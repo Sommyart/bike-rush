@@ -1,7 +1,7 @@
 /* Sommyart: Bike RUSH service worker.
    Pages: network first (new versions arrive on next launch), cached copy when offline.
    Big static files (engine, music, icons): cached once, kept across game updates. */
-const VERSION = '2.7.1';
+const VERSION = '2.8.0';
 const PAGES = 'br-pages';
 const STATIC = 'br-static-1';
 const STATIC_FILES = ['three.min.js', 'coasting.mp3', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest'];
@@ -32,7 +32,7 @@ function isPage(req, url) {
 self.addEventListener('fetch', (e) => {
   const req = e.request, url = new URL(req.url);
   if (req.method !== 'GET' || url.origin !== self.location.origin) return;
-  if (url.pathname.endsWith('/version.json') || url.pathname.endsWith('.apk') || url.pathname.startsWith('/download') || url.pathname.startsWith('/api/') || url.pathname.startsWith('/leaderboard')) return;
+  if (url.pathname.endsWith('/version.json') || url.pathname.endsWith('/news.json') || url.pathname.endsWith('.apk') || url.pathname.startsWith('/download') || url.pathname.startsWith('/api/') || url.pathname.startsWith('/leaderboard')) return;
   if (url.pathname.endsWith('/ads/ads.json')) {
     e.respondWith((async () => {
       const pg = await caches.open(PAGES);
@@ -66,5 +66,23 @@ self.addEventListener('fetch', (e) => {
     const r = await fetch(req);
     if (r.ok && r.status === 200) st.put(req, r.clone());
     return r;
+  })());
+});
+
+/* New-track alerts (sent by api/push when a release adds tracks). */
+self.addEventListener('push', (e) => {
+  let d = {};
+  try { d = e.data ? e.data.json() : {}; } catch (err) { d = { body: e.data ? e.data.text() : '' }; }
+  e.waitUntil(self.registration.showNotification(d.title || 'New tracks on Bike RUSH!', {
+    body: d.body || 'Tap to ride the new tracks.', icon: 'icon-192.png', badge: 'icon-192.png', tag: d.tag || 'tracks', data: { url: d.url || './' }
+  }));
+});
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const url = new URL((e.notification.data && e.notification.data.url) || './', self.registration.scope).href;
+  e.waitUntil((async () => {
+    const all = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const c of all) { if (c.url.startsWith(self.registration.scope) && 'focus' in c) return c.focus(); }
+    return self.clients.openWindow(url);
   })());
 });
