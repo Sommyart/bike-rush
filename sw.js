@@ -1,7 +1,7 @@
 /* Sommyart: Bike RUSH service worker.
    Pages: network first (new versions arrive on next launch), cached copy when offline.
    Big static files (engine, music, icons): cached once, kept across game updates. */
-const VERSION = '2.8.1';
+const VERSION = '2.8.2';
 const PAGES = 'br-pages';
 const STATIC = 'br-static-1';
 const STATIC_FILES = ['three.min.js', 'coasting.mp3', 'icon-192.png', 'icon-512.png', 'manifest.webmanifest'];
