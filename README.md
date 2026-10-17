@@ -1,6 +1,6 @@
 # Sommyart: Bike RUSH
 
-Hosted build of the game, version 2.12.0. Deployed to Vercel from this repo.
+Hosted build of the game, version 2.12.1. Deployed to Vercel from this repo.
 
 - Play: https://sommyart-bike-rush.vercel.app
 - Android app: https://sommyart-bike-rush.vercel.app/download
